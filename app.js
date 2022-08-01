@@ -5,8 +5,6 @@ const {
   invalidEndpoint,
 } = require("./controllers/app.controllers.js");
 
-app.use(express.json());
-
 app.get("/api/topics", getTopics);
 
 app.get("*", invalidEndpoint);

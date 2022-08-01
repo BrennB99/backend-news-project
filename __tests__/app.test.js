@@ -87,3 +87,48 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
+
+describe("PATCH /api/articles/:article_id", () => {
+  test("status 201 and returns updated article", () => {
+    const changeVotes = { inc_votes: 5 };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(changeVotes)
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        expect(article).toBeInstanceOf(Object);
+        expect(article).toEqual(
+          expect.objectContaining({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: 1,
+            body: expect.any(String),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: 105,
+          })
+        );
+      });
+  });
+  test("status 400 and error message when given invalid body key", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ notValid: 5 })
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid Input!");
+      });
+  });
+  test("status 400 and error message when give invalid body value", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: "Not valid" })
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid Input!");
+      });
+  });
+});

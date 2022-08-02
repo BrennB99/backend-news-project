@@ -4,6 +4,7 @@ const {
   retrieveArticle,
   changeArticle,
   retrieveUsers,
+  commentCount,
 } = require("../models/app.models");
 
 exports.getTopics = (req, res, next) => {
@@ -18,8 +19,14 @@ exports.invalidEndpoint = (req, res, next) => {
 
 exports.getArticle = (req, res, next) => {
   const id = req.params;
-  retrieveArticle(id.article_id)
-    .then((article) => {
+  return Promise.all([
+    retrieveArticle(id.article_id),
+    commentCount(id.article_id),
+  ])
+    .then((values) => {
+      const article = values[0];
+      const commentNum = values[1];
+      article.comment_count = commentNum;
       res.status(200).send({ article });
     })
     .catch((err) => {

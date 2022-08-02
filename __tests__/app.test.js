@@ -133,8 +133,8 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe.only("GET /api/users", () => {
-  test.only("Status 200 and returns array containing correct objects", () => {
+describe("GET /api/users", () => {
+  test("Status 200 and returns array containing correct objects", () => {
     return request(app)
       .get("/api/users")
       .expect(200)

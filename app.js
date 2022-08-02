@@ -5,6 +5,7 @@ const {
   invalidEndpoint,
   getArticle,
   updateArticle,
+  getUsers,
 } = require("./controllers/app.controllers.js");
 
 app.use(express.json());
@@ -13,6 +14,8 @@ app.get("/api/topics", getTopics);
 
 app.get("/api/articles/:article_id", getArticle);
 app.patch("/api/articles/:article_id", updateArticle);
+
+app.get("/api/users", getUsers);
 
 app.get("*", invalidEndpoint);
 

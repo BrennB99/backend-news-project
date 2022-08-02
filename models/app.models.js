@@ -34,3 +34,9 @@ exports.changeArticle = (articleInfo) => {
       return rows[0];
     });
 };
+
+exports.retrieveUsers = () => {
+  return db.query("SELECT * FROM users").then(({ rows }) => {
+    return rows;
+  });
+};

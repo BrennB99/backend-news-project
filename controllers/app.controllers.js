@@ -3,6 +3,7 @@ const {
   invalidEndpoint,
   retrieveArticle,
   changeArticle,
+  retrieveUsers,
 } = require("../models/app.models");
 
 exports.getTopics = (req, res, next) => {
@@ -39,4 +40,10 @@ exports.updateArticle = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.getUsers = (req, res, next) => {
+  retrieveUsers().then((users) => {
+    res.status(200).send({ users });
+  });
 };

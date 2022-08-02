@@ -86,6 +86,19 @@ describe("GET /api/articles/:article_id", () => {
         expect(msg).toBe("Invalid ID!");
       });
   });
+  test("Should return an article object with comment count", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .then(({ body }) => {
+        const { article } = body;
+        expect(article).toBeInstanceOf(Object);
+        expect(article).toEqual(
+          expect.objectContaining({
+            comment_count: 11,
+          })
+        );
+      });
+  });
 });
 
 describe("PATCH /api/articles/:article_id", () => {

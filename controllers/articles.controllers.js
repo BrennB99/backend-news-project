@@ -1,20 +1,4 @@
-const {
-  retrieveTopics,
-  invalidEndpoint,
-  retrieveArticle,
-  changeArticle,
-  retrieveUsers,
-} = require("../models/app.models");
-
-exports.getTopics = (req, res, next) => {
-  retrieveTopics().then((topics) => {
-    res.status(200).send({ topics });
-  });
-};
-
-exports.invalidEndpoint = (req, res, next) => {
-  res.status(404).send({ msg: "Path does not exist" });
-};
+const { retrieveArticle, changeArticle } = require("../models/articles.models");
 
 exports.getArticle = (req, res, next) => {
   const id = req.params;
@@ -40,10 +24,4 @@ exports.updateArticle = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-};
-
-exports.getUsers = (req, res, next) => {
-  retrieveUsers().then((users) => {
-    res.status(200).send({ users });
-  });
 };

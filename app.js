@@ -3,10 +3,14 @@ const app = express();
 const {
   getTopics,
   invalidEndpoint,
+} = require("./controllers/topics.controllers.js");
+
+const {
   getArticle,
   updateArticle,
-  getUsers,
-} = require("./controllers/app.controllers.js");
+} = require("./controllers/articles.controllers.js");
+
+const { getUsers } = require("./controllers/users.controllers.js");
 
 app.use(express.json());
 

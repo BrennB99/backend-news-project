@@ -1,8 +1,4 @@
-const {
-  retrieveArticle,
-  changeArticle,
-  commentCount,
-} = require("../models/articles.models");
+const { retrieveArticle, changeArticle } = require("../models/articles.models");
 
 exports.getArticle = (req, res, next) => {
   const id = req.params;

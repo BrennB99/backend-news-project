@@ -1,29 +1,34 @@
 const db = require("../db/connection");
 
-exports.retrieveTopics = () => {
-  return db.query("SELECT * FROM topics").then(({ rows }) => {
-    return rows;
-  });
-};
-
 exports.retrieveArticle = (article_id) => {
+  let article = {};
   return db
     .query(`SELECT * FROM articles WHERE article_id = $1`, [article_id])
     .then(({ rows }) => {
       if (!rows.length) {
         return Promise.reject({ status: 404, msg: "Article does not exist" });
       }
-      return rows[0];
+      article = rows[0];
+    })
+    .then(() => {
+      return db
+        .query(`SELECT COUNT(*) FROM comments WHERE  article_id = $1`, [
+          article_id,
+        ])
+        .then(({ rows }) => {
+          article.comment_count = Number(rows[0].count);
+          return article;
+        });
     });
 };
 
-exports.commentCount = (article_id) => {
-  return db
-    .query(`SELECT * FROM comments WHERE article_id = $1`, [article_id])
-    .then(({ rows }) => {
-      return rows.length;
-    });
-};
+// exports.commentCount = (article_id) => {
+//   return db
+//     .query(`SELECT * FROM comments WHERE article_id = $1`, [article_id])
+//     .then(({ rows }) => {
+//       return rows.length;
+//     });
+// };
 
 exports.changeArticle = (articleInfo) => {
   const { article_id, inc_votes } = articleInfo;
@@ -41,10 +46,4 @@ exports.changeArticle = (articleInfo) => {
     .then(({ rows }) => {
       return rows[0];
     });
-};
-
-exports.retrieveUsers = () => {
-  return db.query("SELECT * FROM users").then(({ rows }) => {
-    return rows;
-  });
 };

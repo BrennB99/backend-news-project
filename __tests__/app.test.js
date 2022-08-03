@@ -194,7 +194,7 @@ describe("GET /api/users", () => {
   });
 });
 
-describe.only("GET /api/articles/:article_id/comments", () => {
+describe("GET /api/articles/:article_id/comments", () => {
   test("Status 200 and should return array of comments", () => {
     return request(app)
       .get("/api/articles/1/comments")
@@ -206,6 +206,7 @@ describe.only("GET /api/articles/:article_id/comments", () => {
         comments.forEach(() => {
           expect.objectContaining({
             comment_id: expect.any(Number),
+            article_id: expect.any(Number),
             votes: expect.any(Number),
             created_at: expect.any(String),
             author: expect.any(String),

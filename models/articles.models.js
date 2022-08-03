@@ -1,4 +1,5 @@
 const db = require("../db/connection");
+const { checkExists } = require("../utils/utils");
 
 exports.retrieveArticleById = (article_id) => {
   return db
@@ -41,6 +42,18 @@ exports.retrieveArticles = () => {
       ORDER BY created_at DESC`
     )
     .then(({ rows }) => {
+      return rows;
+    });
+};
+
+exports.retrieveArticleComments = (id) => {
+  const { article_id } = id;
+  return db
+    .query(`SELECT * FROM comments WHERE article_id = $1`, [article_id])
+    .then(async ({ rows }) => {
+      if (!rows.length) {
+        await checkExists("articles", "article_id", article_id);
+      }
       return rows;
     });
 };

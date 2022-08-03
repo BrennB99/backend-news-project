@@ -94,7 +94,7 @@ describe("GET /api/articles/:article_id", () => {
         expect(article).toBeInstanceOf(Object);
         expect(article).toEqual(
           expect.objectContaining({
-            comment_count: 11,
+            comment_count: "11",
           })
         );
       });

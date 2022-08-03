@@ -4,6 +4,12 @@ const {
   retrieveArticles,
 } = require("../models/articles.models");
 
+exports.getArticles = (req, res, next) => {
+  retrieveArticles().then((articles) => {
+    res.status(200).send({ articles });
+  });
+};
+
 exports.getArticleById = (req, res, next) => {
   const id = req.params;
   retrieveArticleById(id.article_id)

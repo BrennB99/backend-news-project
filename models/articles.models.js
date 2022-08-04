@@ -57,3 +57,27 @@ exports.retrieveArticleComments = (id) => {
       return rows;
     });
 };
+
+exports.sendComment = (id, message) => {
+  if (message.username === undefined || message.body === undefined) {
+    return Promise.reject({ status: 400, msg: "Invalid Input!" });
+  } else if (
+    typeof message.username !== "string" ||
+    typeof message.body !== "string"
+  ) {
+    return Promise.reject({ status: 400, msg: "Invalid Input!" });
+  }
+
+  const { article_id } = id;
+  const { username, body } = message;
+
+  return db
+    .query(
+      `INSERT INTO comments (article_id, author, body)
+    VALUES ($1, $2, $3) RETURNING *`,
+      [article_id, username, body]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};

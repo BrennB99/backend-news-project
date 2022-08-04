@@ -417,8 +417,13 @@ describe("GET /api/articles?queries", () => {
 });
 
 describe("DELETE /api/comments/:comment_id", () => {
-  test("status: 204 and no returned content", () => {
-    return request(app).delete("/api/comments/1").expect(204);
+  test.only("status: 204 and no returned content", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then(() => {
+        return request(app).delete("/api/comments/1").expect(404);
+      });
   });
   test("status 404 when trying to delete a valid but non existent comment", () => {
     return request(app)

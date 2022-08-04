@@ -300,3 +300,118 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("GET /api/articles?queries", () => {
+  test("If no search query is passed, default sort criteria to descending date", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("created_at", {
+          descending: true,
+        });
+      });
+  });
+  test("returns articles sorted by passed sort_by query", () => {
+    return request(app)
+      .get("/api/articles?sort_by=topic")
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("topic", {
+          descending: true,
+        });
+      });
+  });
+  test("status: 400 and correct message if passed invalid sort_by query", () => {
+    return request(app)
+      .get("/api/articles?sort_by=length")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid search query!");
+      });
+  });
+  test("returns articles sorted by passed order query", () => {
+    return request(app)
+      .get("/api/articles?order=ASC")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("created_at", {
+          ascending: true,
+        });
+      });
+  });
+  test("status: 400 and correct message if passed invalid order query", () => {
+    return request(app)
+      .get("/api/articles?order=length")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid search query!");
+      });
+  });
+  test("status:200 and return correct array when passed a topic filter", () => {
+    return request(app)
+      .get("/api/articles?topic=mitch")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        articles.forEach(() => {
+          expect.objectContaining({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            body: expect.any(String),
+            topic: "mitch",
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            comment_count: expect.any(Number),
+          });
+        });
+      });
+  });
+  test("status: 400 and correct message if passed invalid order query", () => {
+    return request(app)
+      .get("/api/articles?topic=length")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid search query!");
+      });
+  });
+  test("status:200 and returns empty array for topic that exists but doesnt have any articles", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeInstanceOf(Array);
+        expect(articles).toHaveLength(0);
+      });
+  });
+  test("returns correctly formatted articles when passed multiple queries", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title&order=ASC&topic=mitch")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles).toBeSortedBy("title", {
+          ascending: true,
+        });
+        articles.forEach(() => {
+          expect.objectContaining({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            body: expect.any(String),
+            topic: "mitch",
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            comment_count: expect.any(Number),
+          });
+        });
+      });
+  });
+});

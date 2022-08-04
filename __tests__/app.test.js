@@ -417,7 +417,7 @@ describe("GET /api/articles?queries", () => {
 });
 
 describe("DELETE /api/comments/:comment_id", () => {
-  test.only("status: 204 and no returned content", () => {
+  test("status: 204 and no returned content", () => {
     return request(app)
       .delete("/api/comments/1")
       .expect(204)

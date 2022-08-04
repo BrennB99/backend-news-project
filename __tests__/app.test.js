@@ -266,7 +266,7 @@ describe("POST /api/articles/:article_id/comments", () => {
         );
       });
   });
-  test("status 400 and error message when given invalid body key", () => {
+  test("status 400 and error message when given invalid key", () => {
     const comment = { name: "icellusedkars", body: "Nice" };
     return request(app)
       .post("/api/articles/7/comments")
@@ -278,7 +278,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
   test("status 400 and error message when given incomplete input", () => {
-    const comment = { name: "icellusedkars" };
+    const comment = { username: "icellusedkars" };
     return request(app)
       .post("/api/articles/7/comments")
       .send(comment)

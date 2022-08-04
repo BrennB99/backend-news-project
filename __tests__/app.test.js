@@ -244,3 +244,59 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("Status 201 and responds with object of comment", () => {
+    const comment = { username: "icellusedkars", body: "Nice" };
+    return request(app)
+      .post("/api/articles/7/comments")
+      .send(comment)
+      .expect(201)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(comment).toEqual(
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            article_id: 7,
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            author: "icellusedkars",
+            body: "Nice",
+          })
+        );
+      });
+  });
+  test("status 400 and error message when given invalid key", () => {
+    const comment = { name: "icellusedkars", body: "Nice" };
+    return request(app)
+      .post("/api/articles/7/comments")
+      .send(comment)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid Input!");
+      });
+  });
+  test("status 400 and error message when given incomplete input", () => {
+    const comment = { username: "icellusedkars" };
+    return request(app)
+      .post("/api/articles/7/comments")
+      .send(comment)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid Input!");
+      });
+  });
+  test("status 400 and error message when give invalid body value", () => {
+    const comment = { username: "icellusedkars", body: 909 };
+    return request(app)
+      .post("/api/articles/7/comments")
+      .send(comment)
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid Input!");
+      });
+  });
+});

@@ -415,3 +415,32 @@ describe("GET /api/articles?queries", () => {
       });
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("status: 204 and no returned content", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then(() => {
+        return request(app).delete("/api/comments/1").expect(404);
+      });
+  });
+  test("status 404 when trying to delete a valid but non existent comment", () => {
+    return request(app)
+      .delete("/api/comments/999")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Comment does not exist!");
+      });
+  });
+  test("status 400 when using an invalid comment_id", () => {
+    return request(app)
+      .delete("/api/comments/test")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid ID!");
+      });
+  });
+});

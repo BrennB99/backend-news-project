@@ -1,5 +1,4 @@
 const db = require("../db/connection");
-const { checkExists } = require("../utils/utils");
 
 exports.retrieveArticleById = (article_id) => {
   return db
@@ -65,40 +64,4 @@ exports.retrieveArticles = (sort_by = "created_at", order = "DESC", topic) => {
   return db.query(string, topics).then(({ rows }) => {
     return rows;
   });
-};
-
-exports.retrieveArticleComments = (id) => {
-  const { article_id } = id;
-  return db
-    .query(`SELECT * FROM comments WHERE article_id = $1`, [article_id])
-    .then(async ({ rows }) => {
-      if (!rows.length) {
-        await checkExists("articles", "article_id", article_id);
-      }
-      return rows;
-    });
-};
-
-exports.sendComment = (id, message) => {
-  if (message.username === undefined || message.body === undefined) {
-    return Promise.reject({ status: 400, msg: "Invalid Input!" });
-  } else if (
-    typeof message.username !== "string" ||
-    typeof message.body !== "string"
-  ) {
-    return Promise.reject({ status: 400, msg: "Invalid Input!" });
-  }
-
-  const { article_id } = id;
-  const { username, body } = message;
-
-  return db
-    .query(
-      `INSERT INTO comments (article_id, author, body)
-    VALUES ($1, $2, $3) RETURNING *`,
-      [article_id, username, body]
-    )
-    .then(({ rows }) => {
-      return rows[0];
-    });
 };

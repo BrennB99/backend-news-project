@@ -32,7 +32,7 @@ app.patch("/api/articles/:article_id", updateArticle);
 app.get("/api/users", getUsers);
 
 app.post("/api/articles/:article_id/comments", postComment);
-//app.get("/api/articles/:article_id/comments", getArticleComments);
+app.get("/api/articles/:article_id/comments", getArticleComments);
 app.delete("/api/comments/:comment_id", deleteComment);
 
 app.get("*", invalidEndpoint);

@@ -23,7 +23,7 @@ describe("GET /api/:invalidPath", () => {
       });
   });
 });
-//
+
 describe("GET /api/topics", () => {
   test("Status: 200", () => {
     return request(app).get("/api/topics").expect(200);
@@ -44,7 +44,7 @@ describe("GET /api/topics", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles", () => {
   test("Status 200 and returns correct array", () => {
     return request(app)
@@ -72,7 +72,7 @@ describe("GET /api/articles", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles/:article_id", () => {
   test("Status: 200", () => {
     return request(app).get("/api/articles/1").expect(200);
@@ -128,7 +128,7 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
-//
+
 describe("PATCH /api/articles/:article_id", () => {
   test("status 201 and returns updated article", () => {
     const changeVotes = { inc_votes: 5 };
@@ -173,7 +173,7 @@ describe("PATCH /api/articles/:article_id", () => {
       });
   });
 });
-//
+
 describe("GET /api/users", () => {
   test("Status 200 and returns array containing correct objects", () => {
     return request(app)
@@ -193,58 +193,58 @@ describe("GET /api/users", () => {
       });
   });
 });
-//
-// describe("GET /api/articles/:article_id/comments", () => {
-//   test("Status 200 and should return array of comments", () => {
-//     return request(app)
-//       .get("/api/articles/1/comments")
-//       .expect(200)
-//       .then(({ body }) => {
-//         const { comments } = body;
-//         expect(comments).toBeInstanceOf(Array);
-//         expect(comments).toHaveLength(11);
-//         comments.forEach(() => {
-//           expect.objectContaining({
-//             comment_id: expect.any(Number),
-//             article_id: expect.any(Number),
-//             votes: expect.any(Number),
-//             created_at: expect.any(String),
-//             author: expect.any(String),
-//             body: expect.any(String),
-//           });
-//         });
-//       });
-//   });
-//   test("status 404 and error message when given a valid but non-existent id", () => {
-//     return request(app)
-//       .get("/api/articles/999/comments")
-//       .expect(404)
-//       .then(({ body }) => {
-//         const { msg } = body;
-//         expect(msg).toBe("Article does not exist");
-//       });
-//   });
-//   test("status 400 and error message when given an invalid id", () => {
-//     return request(app)
-//       .get("/api/articles/not_an_article/comments")
-//       .expect(400)
-//       .then(({ body }) => {
-//         const { msg } = body;
-//         expect(msg).toBe("Invalid ID!");
-//       });
-//   });
-//   test("Status 200 and empty array when given a valid ID with no comments", () => {
-//     return request(app)
-//       .get("/api/articles/7/comments")
-//       .expect(200)
-//       .then(({ body }) => {
-//         const { comments } = body;
-//         expect(comments).toBeInstanceOf(Array);
-//         expect(comments).toHaveLength(0);
-//       });
-//   });
-// });
-//
+
+describe("GET /api/articles/:article_id/comments", () => {
+  test("Status 200 and should return array of comments", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments).toHaveLength(11);
+        comments.forEach(() => {
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            article_id: expect.any(Number),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            author: expect.any(String),
+            body: expect.any(String),
+          });
+        });
+      });
+  });
+  test("status 404 and error message when given a valid but non-existent id", () => {
+    return request(app)
+      .get("/api/articles/999/comments")
+      .expect(404)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Article does not exist");
+      });
+  });
+  test("status 400 and error message when given an invalid id", () => {
+    return request(app)
+      .get("/api/articles/not_an_article/comments")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("Invalid ID!");
+      });
+  });
+  test("Status 200 and empty array when given a valid ID with no comments", () => {
+    return request(app)
+      .get("/api/articles/7/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments).toHaveLength(0);
+      });
+  });
+});
+
 describe("POST /api/articles/:article_id/comments", () => {
   test("Status 201 and responds with object of comment", () => {
     const comment = { username: "icellusedkars", body: "Nice" };
@@ -300,7 +300,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles?queries", () => {
   test("If no search query is passed, default sort criteria to descending date", () => {
     return request(app)
@@ -415,7 +415,7 @@ describe("GET /api/articles?queries", () => {
       });
   });
 });
-//
+
 describe("DELETE /api/comments/:comment_id", () => {
   test("status: 204 and no returned content", () => {
     return request(app)

@@ -23,7 +23,7 @@ describe("GET /api/:invalidPath", () => {
       });
   });
 });
-//
+
 describe("GET /api/topics", () => {
   test("Status: 200", () => {
     return request(app).get("/api/topics").expect(200);
@@ -44,7 +44,7 @@ describe("GET /api/topics", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles", () => {
   test("Status 200 and returns correct array", () => {
     return request(app)
@@ -72,7 +72,7 @@ describe("GET /api/articles", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles/:article_id", () => {
   test("Status: 200", () => {
     return request(app).get("/api/articles/1").expect(200);
@@ -128,7 +128,7 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
-//
+
 describe("PATCH /api/articles/:article_id", () => {
   test("status 201 and returns updated article", () => {
     const changeVotes = { inc_votes: 5 };
@@ -173,7 +173,7 @@ describe("PATCH /api/articles/:article_id", () => {
       });
   });
 });
-//
+
 describe("GET /api/users", () => {
   test("Status 200 and returns array containing correct objects", () => {
     return request(app)
@@ -193,7 +193,7 @@ describe("GET /api/users", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles/:article_id/comments", () => {
   test("Status 200 and should return array of comments", () => {
     return request(app)
@@ -244,7 +244,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
-//
+
 describe("POST /api/articles/:article_id/comments", () => {
   test("Status 201 and responds with object of comment", () => {
     const comment = { username: "icellusedkars", body: "Nice" };
@@ -300,7 +300,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
-//
+
 describe("GET /api/articles?queries", () => {
   test("If no search query is passed, default sort criteria to descending date", () => {
     return request(app)
@@ -415,7 +415,7 @@ describe("GET /api/articles?queries", () => {
       });
   });
 });
-//
+
 describe("DELETE /api/comments/:comment_id", () => {
   test("status: 204 and no returned content", () => {
     return request(app)
